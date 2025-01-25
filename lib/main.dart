@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:to_day_do/models/provider.dart';
 import 'package:to_day_do/screens/task_screen.dart';
 
 void main() {
@@ -18,7 +20,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
         useMaterial3: true,
       ),
-      home: const TaskScreen(),
+      home:  ChangeNotifierProvider(
+        create: (context) => taskProvider(),
+        child: TaskScreen()),
     );
   }
 }

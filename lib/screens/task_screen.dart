@@ -1,37 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:to_day_do/models/model.dart';
+import 'package:to_day_do/models/provider.dart';
 import 'package:to_day_do/screens/widgets/app_bar_tasks_widget.dart';
 import 'package:to_day_do/screens/widgets/list_tasks_widget.dart';
 
-class TaskScreen extends StatefulWidget {
-  const TaskScreen({super.key});
+class TaskScreen extends StatelessWidget {
+   TaskScreen({super.key});
 
-  @override
-  State<TaskScreen> createState() => _TaskScreenState();
-}
-
-class _TaskScreenState extends State<TaskScreen> {
   final nameController = TextEditingController();
-  List<Model> tasks = [
-    Model(
-      name: 'go  shoping',
-    ),
-    Model(name: 'meeting'),
-    Model(name: 'travel egypt')
-  ];
 
   void addNewTask(name) {
-    setState(() {
-      tasks.add(Model(name: name));
-    });
+      // tasks.add(Model(name: name));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+    
       floatingActionButton: Align(
         alignment: Alignment.bottomCenter,
         child: FloatingActionButton(
+          
           backgroundColor: Colors.deepOrange,
           onPressed: () {
             showModelSheetTask(context);
@@ -51,13 +41,12 @@ class _TaskScreenState extends State<TaskScreen> {
           children: [
             AppBarTasksWidget(),
             Text(
-              "${tasks.length} Tasks",
+              "${Provider.of<taskProvider>(context).tasks.length} Tasks",
               style: TextStyle(
                 color: Colors.white,
               ),
             ),
             ListTasksWidget(
-              model: tasks,
             ),
           ],
         ),
@@ -98,7 +87,9 @@ class _TaskScreenState extends State<TaskScreen> {
                             foregroundColor: Colors.white,
                             backgroundColor: Colors.teal[900]),
                         onPressed: () {
-                          addNewTask(nameController.text);
+                          nameController.text.isEmpty
+                              ? print('is empty')
+                              : addNewTask(nameController.text);
                           nameController.clear();
                           Navigator.pop(context);
                         },
