@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:to_day_do/models/model.dart';
 import 'package:to_day_do/screens/widgets/item_task_widgtet.dart';
 
-class ListTasksWidget extends StatelessWidget {
-  const ListTasksWidget({super.key});
+class ListTasksWidget extends StatefulWidget {
+const   ListTasksWidget({super.key, required this.model});
+ final  List<Model> model;
 
+  @override
+  State<ListTasksWidget> createState() => _ListTasksWidgetState();
+}
+
+class _ListTasksWidgetState extends State<ListTasksWidget> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -15,9 +22,18 @@ class ListTasksWidget extends StatelessWidget {
           color: Colors.white,
         ),
         child: ListView.builder(
-          itemCount: 3,
+          itemCount: widget.model.length,
           itemBuilder: (context, index) {
-            return ItemTaskWidget();
+            return ItemTaskWidget(
+              isCheck: widget.model[index].isCheck,
+              name: widget.model[index].name,
+              onChanged: (value) {
+                setState(() {
+                  widget.model[index].changeCheckBox();
+                  // tasks[index].isCheck = value!;
+                });
+              },
+            );
           },
         ),
       ),
